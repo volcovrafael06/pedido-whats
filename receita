@@ -1,0 +1,52 @@
+from fpdf import FPDF
+import random
+
+# Criação da classe PDF com formato A4 e margem para quebra de página
+pdf = FPDF(format='A4')
+pdf.set_auto_page_break(auto=True, margin=15)
+
+# Definição de possíveis dificuldades e uma lista de ingredientes
+difficulties = ['Fácil', 'Médio', 'Difícil']
+ingredients_list = [
+    "Peito de Frango", "Arroz Integral", "Brócolis", "Batata Doce", "Ovo", 
+    "Quinoa", "Espinafre", "Atum", "Abacate", "Iogurte Natural", 
+    "Amêndoas", "Salmão", "Feijão", "Ervilha", "Cenoura", "Abobrinha"
+]
+
+# Loop para criar 300 receitas
+for i in range(1, 301):
+    pdf.add_page()
+    
+    # Título da receita
+    pdf.set_font("Arial", 'B', 16)
+    pdf.cell(0, 10, f"Receita {i}: Receita Fitness", ln=True)
+    
+    # Ingredientes Necessários
+    pdf.set_font("Arial", '', 12)
+    pdf.cell(0, 10, "Ingredientes Necessários:", ln=True)
+    # Seleciona 5 ingredientes aleatoriamente (sem repetição)
+    selected_ingredients = random.sample(ingredients_list, 5)
+    for ing in selected_ingredients:
+        pdf.cell(0, 10, f"- {ing}", ln=True)
+    
+    # Tempo de preparo (entre 10 e 60 minutos)
+    tempo = random.randint(10, 60)
+    pdf.cell(0, 10, f"Tempo de Preparo: {tempo} minutos", ln=True)
+    
+    # Dificuldade
+    diff = random.choice(difficulties)
+    pdf.cell(0, 10, f"Dificuldade: {diff}", ln=True)
+    
+    # Macros – valores aleatórios para demonstração
+    calories = random.randint(200, 500)
+    proteins = random.randint(20, 50)
+    carbs = random.randint(20, 60)
+    fats = random.randint(5, 20)
+    pdf.cell(0, 10, "Macros:", ln=True)
+    pdf.cell(0, 10, f"- Calorias: {calories} kcal", ln=True)
+    pdf.cell(0, 10, f"- Proteínas: {proteins} g", ln=True)
+    pdf.cell(0, 10, f"- Carboidratos: {carbs} g", ln=True)
+    pdf.cell(0, 10, f"- Gorduras: {fats} g", ln=True)
+
+# Salva o arquivo PDF com todas as receitas
+pdf.output("ebook_receitas_fitness.pdf")
